@@ -14,7 +14,7 @@ func main() {
 	config.SQLiteFilePath = os.Args[1]
 	database.Configure()
 	c := cache.LoadCache()
-	c.ShowInfo()
+	c.Inspect()
 	PrintMemUsage()
 	fmt.Print("\nPress 'Enter' to continue...")
 	bufio.NewReader(os.Stdin).ReadBytes('\n')

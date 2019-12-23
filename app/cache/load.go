@@ -35,10 +35,6 @@ func LoadCache() Cache {
    return c
 }
 
-func (c Cache) ShowInfo() {
-   fmt.Printf("%d packages\n", len(c.PackageDetails))
-}
-
 func getAllRows(tableName, cols, orderBy string) *sql.Rows {
 	rows, err := database.Db.DB().Query(fmt.Sprintf("SELECT %s FROM %s ORDER BY %s",
        cols, tableName, orderBy))
