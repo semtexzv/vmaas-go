@@ -14,28 +14,28 @@ var (
 
 func LoadCache() *Cache {
    c := Cache{}
-   c.Packagename2Id = loadStrIntMap("packagename", "id", "packagename", "packagename2id")
-   c.Id2Packagename = loadIntStrMap("packagename", "id", "packagename", "id2packagename")
+   c.Packagename2Id = loadStrIntMap("packagename", "id", "packagename", "Packagename2Id")
+   c.Id2Packagename = loadIntStrMap("packagename", "id", "packagename", "Id2Packagename")
    c.Updates = loadKeysValsOrderedMap("updates", "name_id", "package_id",
-   "package_order", "name_id,package_order", "updates")
+   "package_order", "name_id,package_order", "Updates")
    c.UpdatesIndex = loadKeysValsOrderedMap("updates_index", "name_id", "evr_id",
-   "package_order", "name_id,package_order", "updates_index")
+   "package_order", "name_id,package_order", "UpdatesIndex")
    c.Id2Evr, c.Evr2Id = loadEvrMaps("evr", "id", "epoch", "version", "release",
-   "id2evr, evr2id")
-   c.Id2Arch = loadIntStrMap("arch", "id", "arch", "id2arch")
-   c.Arch2Id = loadStrIntMap("arch", "id", "arch", "arch2id")
+   "Id2Evr, Evr2Id")
+   c.Id2Arch = loadIntStrMap("arch", "id", "arch", "Id2Arch")
+   c.Arch2Id = loadStrIntMap("arch", "id", "arch", "Arch2Id")
    c.ArchCompat = loadArchCompat()
-   c.PackageDetails, c.Nevra2PkgId, c.SrcPkgId2PkgId = loadPkgDetails()
-   c.RepoDetails, c.RepoLabel2Ids, c.ProductId2RepoIds = loadRepoDetails()
-   c.PkgId2RepoIds = loadInt2Ints("pkg_repo", "pkg_id,repo_id", "pkgid2repoids") // long
-   c.ErrataDetail, c.ErrataId2Name = loadErratas("errata_detail, errataid2name")
-   c.PkgId2ErrataIds = loadInt2Ints("pkg_errata", "pkg_id,errata_id","pkgid2errataids")
-   c.ErrataId2RepoIds = loadInt2Ints("errata_repo", "errata_id,repo_id", "errataid2repoids")
-   c.CveDetail = loadCves("cve_detail")
-   c.PkgErrata2Module = loadPkgErrataModule("pkg_errata2module")
-   c.ModuleName2Ids = loadModuleName2Ids("module_name2ids")
-   c.DbChange = loadDbChanges("dbchange")
-   c.String = loadString("strings")
+   c.PackageDetails, c.Nevra2PkgId, c.SrcPkgId2PkgId = loadPkgDetails("PackageDetails, Nevra2PkgId, SrcPkgId2PkgId")
+   c.RepoDetails, c.RepoLabel2Ids, c.ProductId2RepoIds = loadRepoDetails("RepoDetails, RepoLabel2Ids, ProductId2RepoIds")
+   c.PkgId2RepoIds = loadInt2Ints("pkg_repo", "pkg_id,repo_id", "PkgId2RepoIds") // long
+   c.ErrataDetail, c.ErrataId2Name = loadErratas("ErrataDetail, ErrataId2Name")
+   c.PkgId2ErrataIds = loadInt2Ints("pkg_errata", "pkg_id,errata_id","PkgId2ErrataIds")
+   c.ErrataId2RepoIds = loadInt2Ints("errata_repo", "errata_id,repo_id", "ErrataId2RepoIds")
+   c.CveDetail = loadCves("CveDetail")
+   c.PkgErrata2Module = loadPkgErrataModule("PkgErrata2Module")
+   c.ModuleName2Ids = loadModuleName2Ids("ModuleName2Ids")
+   c.DbChange = loadDbChanges("DbChange")
+   c.String = loadString("String")
    return &c
 }
 
@@ -178,8 +178,8 @@ func loadArchCompat() map[int][]int {
    return m
 }
 
-func loadPkgDetails() (map[int]PackageDetail, map[Nevra]int, map[int][]int) {
-   defer utils.TimeTrack(time.Now(), "package_details, nevra2pkg_id, srcpkg2pkgids")
+func loadPkgDetails(info string) (map[int]PackageDetail, map[Nevra]int, map[int][]int) {
+   defer utils.TimeTrack(time.Now(), info)
 
    rows := getAllRows("package_detail", "*", "id")
    id2pkdDetail := map[int]PackageDetail{}
@@ -212,8 +212,8 @@ func loadPkgDetails() (map[int]PackageDetail, map[Nevra]int, map[int][]int) {
    return id2pkdDetail, nevra2id, srcPkgId2PkgId
 }
 
-func loadRepoDetails() (map[int]RepoDetail, map[string][]int, map[int][]int) {
-   defer utils.TimeTrack(time.Now(), "repo_details, repo_label2ids, prod_id2repo_ids")
+func loadRepoDetails(info string) (map[int]RepoDetail, map[string][]int, map[int][]int) {
+   defer utils.TimeTrack(time.Now(), info)
 
    rows := getAllRows("repo_detail", "*", "label")
    id2repoDetail := map[int]RepoDetail{}
