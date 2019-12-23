@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/RedHatInsights/vmaas-go/app/cache"
 	"github.com/RedHatInsights/vmaas-go/app/config"
 	"github.com/RedHatInsights/vmaas-go/app/database"
+	"github.com/RedHatInsights/vmaas-go/app/webserver"
 	"os"
 	"runtime"
 )
@@ -13,17 +13,15 @@ import (
 func main() {
 	config.SQLiteFilePath = os.Args[1]
 	database.Configure()
-	c := cache.LoadCache()
-	c.Inspect()
+	cache.C = cache.LoadCache()
+	cache.C.Inspect()
 	PrintMemUsage()
-	fmt.Print("\nPress 'Enter' to continue...")
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	webserver.Run()
 }
 
 func PrintMemUsage() {
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
-	// For info on each, see: https://golang.org/pkg/runtime/#MemStats
 	fmt.Printf("\nAlloc = %v MiB", bToMb(m.Alloc))
 	fmt.Printf("\nTotalAlloc = %v MiB", bToMb(m.TotalAlloc))
 	fmt.Printf("\nSys = %v MiB", bToMb(m.Sys))

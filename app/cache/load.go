@@ -8,7 +8,11 @@ import (
    "time"
 )
 
-func LoadCache() Cache {
+var (
+   C *Cache
+)
+
+func LoadCache() *Cache {
    c := Cache{}
    c.Packagename2Id = loadStrIntMap("packagename", "id", "packagename", "packagename2id")
    c.Id2Packagename = loadIntStrMap("packagename", "id", "packagename", "id2packagename")
@@ -32,7 +36,7 @@ func LoadCache() Cache {
    c.ModuleName2Ids = loadModuleName2Ids("module_name2ids")
    c.DbChange = loadDbChanges("dbchange")
    c.String = loadString("strings")
-   return c
+   return &c
 }
 
 func getAllRows(tableName, cols, orderBy string) *sql.Rows {
