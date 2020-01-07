@@ -6,8 +6,10 @@ import (
 	"github.com/RedHatInsights/vmaas-go/app/config"
 	"github.com/RedHatInsights/vmaas-go/app/database"
 	"github.com/RedHatInsights/vmaas-go/app/webserver"
+	"log"
 	"os"
 	"runtime"
+	"runtime/pprof"
 )
 
 func main() {
@@ -15,6 +17,17 @@ func main() {
 	database.Configure()
 	cache.C = cache.LoadCache()
 	cache.C.Inspect()
+
+	f, err := os.Create("mem.prof")
+	if err != nil {
+		log.Fatal("could not create memory profile: ", err)
+	}
+	defer f.Close()
+	runtime.GC() // get up-to-date statistics
+	if err := pprof.WriteHeapProfile(f); err != nil {
+		log.Fatal("could not write memory profile: ", err)
+	}
+
 	PrintMemUsage()
 	webserver.Run()
 }
@@ -28,5 +41,5 @@ func PrintMemUsage() {
 }
 
 func bToMb(b uint64) uint64 {
-    return b / 1024 / 1024
+	return b / 1024 / 1024
 }
