@@ -20,7 +20,7 @@ func LoadCache() *Cache {
    "package_order", "name_id,package_order", "Updates")
    c.UpdatesIndex = loadKeysValsOrderedMap("updates_index", "name_id", "evr_id",
    "package_order", "name_id,package_order", "UpdatesIndex")
-   c.Id2Evr, c.Evr2Id = loadEvrMaps("evr", "id", "epoch", "version", "release",
+   c.Id2Evr, c.Evr2Id = loadEvrMaps("evr", "id", "Epoch", "Version", "Release",
    "Id2Evr, Evr2Id")
    c.Id2Arch = loadIntStrMap("arch", "id", "arch", "Id2Arch")
    c.Arch2Id = loadStrIntMap("arch", "id", "arch", "Arch2Id")
@@ -130,9 +130,9 @@ func loadKeysValsOrderedMap(table, colKey, colVal, colOrder, orderBy, info strin
 }
 
 type Evr struct {
-   epoch   int
-   version string
-   release string
+   Epoch   int
+   Version string
+   Release string
 }
 
 func loadEvrMaps(table, evrIdCol, epochCol, versionCol, releaseCol, info string) (map[int]Evr, map[Evr]int) {
@@ -148,9 +148,9 @@ func loadEvrMaps(table, evrIdCol, epochCol, versionCol, releaseCol, info string)
 
    for i := 0; i < len(epochs); i++ {
       evr := Evr{
-         epoch:   epochs[i],
-         version: vers[i],
-         release: rels[i],
+         Epoch:   epochs[i],
+         Version: vers[i],
+         Release: rels[i],
       }
       id2evr[evrIds[i]] = evr
       evr2id[evr] = evrIds[i]
