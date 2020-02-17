@@ -6,12 +6,12 @@ type Cache struct {
    Packagename2Id    map[string]int
    Id2Packagename    map[int]string
    Updates           map[int][]int
-   UpdatesIndex      map[int][]int
+   UpdatesIndex      map[int]map[int][]int
    Evr2Id            map[Evr]int
    Id2Evr            map[int]Evr
    Id2Arch           map[int]string
    Arch2Id           map[string]int
-   ArchCompat        map[int][]int
+   ArchCompat        map[int]map[int]bool
    PackageDetails    map[int]PackageDetail
    Nevra2PkgId       map[Nevra]int
    RepoDetails       map[int]RepoDetail
@@ -27,15 +27,15 @@ type Cache struct {
    DbChange          []DbChange
    ErrataDetail      map[string]ErrataDetail
    SrcPkgId2PkgId    map[int][]int
-   String            map[string]*string
+   String            map[int]string
 }
 
 type PackageDetail struct {
    NameId        int
    EvrId         int
    ArchId        int
-   SummaryId     string
-   DescriptionId string
+   SummaryId     int
+   DescriptionId int
    SrcPkgId      *int
 }
 

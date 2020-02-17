@@ -1,6 +1,8 @@
 package cache
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (c *Cache) Inspect() {
 	fmt.Println("Packagename2Id:", len(c.Packagename2Id))

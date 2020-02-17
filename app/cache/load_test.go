@@ -9,7 +9,7 @@ import (
 )
 
 func TestLoadCache(t *testing.T) {
-	config.SQLiteFilePath = "../../vmaas.db"
+	config.SQLiteFilePath = "../../data/vmaas.db"
 	database.Configure()
 	c := LoadCache()
 	assert.Equal(t, 30173, len(c.Id2Packagename))

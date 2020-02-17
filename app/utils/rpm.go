@@ -27,7 +27,7 @@ type Nevra struct {
 func (n Nevra) String() string {
 	var epoch string
 	if n.Epoch != 0 {
-		epoch = fmt.Sprintf("%v", n.Epoch)
+		epoch = fmt.Sprintf("%v:", n.Epoch)
 	}
 	return fmt.Sprintf("%s-%s%s-%s.%s", n.Name, epoch, n.Version, n.Release, n.Arch)
 }
@@ -40,15 +40,15 @@ func ParseNevra(nevra string) (*Nevra, error) {
 	}
 	var epoch int
 	var err error
-	if parsed[2] != "" {
-		epoch, err = strconv.Atoi(parsed[2])
+	if parsed[5] != "" {
+		epoch, err = strconv.Atoi(parsed[5])
 		if err != nil {
 			return nil, err
 		}
 	}
 	res := Nevra{
 		Name:    parsed[3],
-		Epoch:   epoch, // parsed[2],
+		Epoch:   epoch,
 		Version: parsed[6],
 		Release: parsed[7],
 		Arch:    parsed[8],
